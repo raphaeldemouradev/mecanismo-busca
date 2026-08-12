@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Mecanismo de Busca</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="search-container">
+    <header class="search-header">
+      <h1>MiniSearch</h1>
+      <p>Mecanismo de busca para estudo de indexação e relevância</p>
+    </header>
+
+    <form id="search-form" class="search-box">
+      <input 
+        type="text" 
+        id="search-input" 
+        placeholder="Digite sua busca aqui..." 
+        autocomplete="off"
+        required
+      />
+      <button type="submit" id="search-button">Buscar</button>
+    </form>
+
+    <section id="results-meta" class="results-meta"></section>
+    <section id="results-list" class="results-list"></section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
