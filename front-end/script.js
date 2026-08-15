@@ -1,9 +1,4 @@
-// Banco de dados nativo (Simulação dos documentos)
-const bancoDeDados = [
-  { id: 1, titulo: "Introdução à Inteligência Artificial", conteudo: "A inteligência artificial transforma a forma como criamos sistemas de busca e processamos dados." },
-  { id: 2, titulo: "Como funciona um Mecanismo de Busca", conteudo: "Um mecanismo de busca utiliza rastreamento, índice invertido e algoritmos de ranking para entregar resultados." },
-  { id: 3, titulo: "Desenvolvimento Front-end com CSS", conteudo: "O CSS é fundamental para estilizar páginas e criar interfaces de usuário modernas e responsivas." }
-];
+import { bancoDeDados } from "../back-end/banco.js";
 
 // Pipeline de Normalização (Passo 1 do nosso motor)
 function normalizarTexto(texto) {
@@ -19,19 +14,41 @@ const form = document.getElementById("search-form");
 const input = document.getElementById("search-input");
 const resultsList = document.getElementById("results-list");
 const resultsMeta = document.getElementById("results-meta");
+// Teste inicial para verificar se o arquivo script.js foi carregado no navegador
+console.log("Script carregado com sucesso!");
 
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
+
   const query = input.value.trim();
+  console.log("Termo digitado:", query)
   if (!query) return;
 
-  executarBusca(query);
+  await executarBusca(query);
 });
 
-function executarBusca(query) {
+async function executarBusca(query) {
   const termoNormalizado = normalizarTexto(query);
   const inicio = performance.now();
 
+  // Exibe mensagem visual de carregamento enquanto faz a requisição
+  resultsList.innerHTML = `<p style="color: #5f6368;">Buscando na Wikipedia...</p>`;
+  try {
+
+    // Chamamos o bancoDeDados passando o termo e aguardando o retorno da Wikipedia
+    console.log("Iniciando requisição para o banco.js...");
+    const resultados = await bancoDeDados(query);
+    console.log("Resultados retornados do banco.js:", resultados);
+
+    const fim = performance.now();
+    const tempoExecucao = (fim - inicio).toFixed(2);
+
+    renderizarResultados(resultados, query, tempoExecucao);
+  } catch (error) {
+    console.error("Erro capturado durante a busca:", erro);
+    resultsList.innerHTML = `<p style="color: #d93025;">Ocorreu um erro ao buscar os dados.</p>`;
+  }
+/* // LOCAL BUSCA //
   // Busca simples por correspondência de termos no banco nativo
   // Requisição
   const resultados = bancoDeDados.filter(doc => {
@@ -44,6 +61,7 @@ function executarBusca(query) {
   const tempoExecucao = (fim - inicio).toFixed(2);
 
   renderizarResultados(resultados, query, tempoExecucao);
+*/
 }
 
 function renderizarResultados(resultados, query, tempo) {

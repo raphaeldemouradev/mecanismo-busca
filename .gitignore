@@ -1,1 +1,29 @@
 *index.js
+
+*server.js
+{
+
+"ignorar_por_seguranca": [
+    ".env",
+    "*.env.local",
+    "*.pem",
+    "*.key",
+    "secrets.json",
+    "config/settings.local.json"
+],
+
+"dependencias_e_pacotes": [
+    "node_modules/",
+    "bower_components/",
+    "vendor/",
+    ".pnpm-store/"
+],
+
+"arquivos_de_compilacao": [
+    "dist/",
+    "build/",
+    ".next/",
+    "out/",
+    "target/"
+  ],
+}
